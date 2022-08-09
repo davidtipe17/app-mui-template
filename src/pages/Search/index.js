@@ -1,60 +1,66 @@
+import * as React from "react";
+import Card from "@mui/material/Card";
+import Grid from "@mui/material/Grid";
+import CardContent from "@mui/material/CardContent";
+import TextField from "@mui/material/TextField";
+import { useParams, useNavigate } from "react-router-dom";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import { Container } from "@mui/system";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  Box,
-  Container,
-  Grid,
-  Card,
-  CardContent,
-  Stack,
-  Typography,
-  TextField,
-  Button,
-} from "@mui/material";
 
-const Search = () => {
+export default function Search() {
   const [searchText, setSearchText] = useState("");
   const history = useNavigate();
-
-  function searchInput(event) {
+  const HandleInputChange = (event) => {
     setSearchText(event.target.value);
-  }
-
-  function searchButton() {
+  };
+  const HandleClickMovie = () => {
     if (searchText === "") return;
     history(`/search/${searchText}`);
-  }
+  };
 
   return (
-    <Box>
-      <Container maxWidth="sm">
-        <Grid container mt={6}>
-          <Grid item xs={12}>
-            <Card>
-              <CardContent>
-                <Typography variant="h2">OMDB Search</Typography>
-                <Stack
-                  mt={2}
-                  direction="row"
-                  justifyContent="space-between"
-                  spacing={2}
-                >
-                  <TextField
-                    label="Movie or tv show..."
-                    fullWidth
-                    onChange={searchInput}
-                  />
-                  <Button variant="contained" fullWidth onClick={searchButton}>
-                    Search
-                  </Button>
-                </Stack>
-              </CardContent>
-            </Card>
+    <Container style={{ height: "100vh", maxWidth: "100%" }}>
+      <Card
+        sx={{
+          maxWidth: 800,
+          margin: "auto",
+          marginTop: 20,
+          padding: 5,
+        }}
+      >
+        <CardContent>
+          <Typography variant="h3">OMDB Search</Typography>
+        </CardContent>
+        <CardContent>
+          <Grid container spacing={1}>
+            <Grid item xs={6} fullWidth>
+              <TextField
+                fullWidth
+                id="outlined-basic"
+                label="Movie or tv show"
+                onChange={HandleInputChange}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              {" "}
+              <Button
+                sx={{
+                  padding: 1.9,
+                }}
+                fullWidth
+                variant="contained"
+                onClick={HandleClickMovie}
+              >
+                Search
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
-      </Container>
-    </Box>
+        </CardContent>
+      </Card>
+    </Container>
   );
-};
-
-export default Search;
+}
