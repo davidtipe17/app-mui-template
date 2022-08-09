@@ -1,0 +1,39 @@
+import { Box, Typography, Card, CardContent, Stack } from "@mui/material";
+
+const CardBoxShopping = ({ item }) => {
+  return (
+    <Box>
+      <Box mt={3}>
+        <Card>
+          <CardContent>
+            <Stack direction="row" justifyContent="space-between" gap={3}>
+              <img
+                width={100}
+                height={100}
+                style={{
+                  objectFit: "cover",
+                  borderRadius: 4,
+                }}
+                src={item.movie.Poster}
+                alt={item.movie.Title}
+              />
+              <Stack
+                sx={{
+                  textAlign: "left",
+                  width: "100%",
+                }}
+              >
+                <Typography variant="h6">{item.movie.Title}</Typography>
+                <Typography variant="subtitle1">
+                  $ {item.movie.Price}
+                </Typography>
+                <Typography variant="subtitle1">{item.quantity}</Typography>
+              </Stack>
+            </Stack>
+          </CardContent>
+        </Card>
+      </Box>
+    </Box>
+  );
+};
+export default CardBoxShopping;
