@@ -111,14 +111,16 @@ const DrawerButton = ({ text, icon, action }) => {
 
 const MainLayout = () => {
 	const history = useNavigate();
-
+	const { user, logout, isAuth } = useContext(AuthContext);
 
 	const theme = useTheme();
 	const [open, setOpen] = useState(false);
 
 	const handleDrawer = () => setOpen(!open);
 
-
+	if (!isAuth()) {
+		return <Navigate to="/" />;
+	}
 
 	return (
 		<Box sx={{ display: "flex" }}>
@@ -138,7 +140,7 @@ const MainLayout = () => {
 						<MenuIcon />
 					</IconButton>
 					<Typography variant="h6" noWrap component="div">
-						ALGOOO
+						{user.name}
 					</Typography>
 				</Toolbar>
 			</AppBar>
@@ -173,7 +175,7 @@ const MainLayout = () => {
 					<DrawerButton
 						icon={<LogoutIcon />}
 						text="Logout"
-						action=''
+						action={logout}
 					/>
 				</List>
 			</Drawer>

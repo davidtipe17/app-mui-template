@@ -1,19 +1,19 @@
-import Config from "../Config.js";
-
-// crear la funcion searchByText(searchText)
-// dentro harán un fetch, a esta url:
-// config.apiUrl + "?s=" + searchText + "&apikey=" + config.apiKey
+import Config from "../config.js";
 
 const searchByText = async (searchText) => {
-  const response = await fetch(
-    Config.api.url + "?s=" + searchText + "&apikey=" + Config.api.key
-  );
-  const data = await response.json();
-  return data;
+	try {
+		const url =
+			Config.api.url + "?s=" + searchText + "&apikey=" + Config.api.key;
+		const response = await fetch(url);
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		return error;
+	}
 };
 
 const Services = {
-  searchByText,
+	searchByText,
 };
 
 export default Services;

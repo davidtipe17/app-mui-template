@@ -1,33 +1,53 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { Box, Container, Typography, CardMedia } from "@mui/material";
+import { useParams, useNavigate } from "react-router-dom";
+import { Box, Container, Grid, IconButton, Typography } from "@mui/material";
 import Services from "../../services";
-import CardMovie from "../../components/CardMovie/index.js";
-const SearchResult = () => {
+import { CardMovie } from "../../components";
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+
+const SearchResults = () => {
   const [movies, setMovies] = useState([]);
   const { searchText } = useParams();
+  const history = useNavigate();
 
-  const fetchMovie = async () => {
+  async function getSearchResults() {
     const data = await Services.searchByText(searchText);
     setMovies(data.Search);
-  };
+  }
+
   useEffect(() => {
-    fetchMovie();
+    getSearchResults();
   }, []);
 
+  function backButton() {
+    history("/search");
+  }
+
   return (
-    <Container maxWidth="md">
-      <Box mt={10}>
-        <Typography variant="h6">
-          Resultado de la busqueda del usuario: {searchText}
-        </Typography>
-      </Box>
-      <Box>
-        {movies.length > 0 &&
-          movies.map((movie, index) => <CardMovie key={index} movie={movie} />)}
-      </Box>
-    </Container>
+    <Box>
+      <Container>
+        <IconButton onClick={backButton}>
+          <ArrowBackRoundedIcon color="success" />
+        </IconButton>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Typography
+              variant="h6"
+              sx={{
+                textTransform: "capitalize",
+              }}
+            >
+              Search / {searchText}
+            </Typography>
+          </Grid>
+          {movies.length > 0 &&
+            movies.map((movie, index) => (
+              <CardMovie movie={movie} key={index} />
+            ))}
+        </Grid>
+      </Container>
+    </Box>
   );
 };
 
-export default SearchResult;
+export default SearchResults;
