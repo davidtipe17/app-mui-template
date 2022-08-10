@@ -12,12 +12,23 @@ import {
 } from "@mui/material";
 import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
 import CardBoxShopping from "../CardBoxShopping"
+import CardItem from "../CardItem";
 const DrawerCart = () => {
   const { items } = useContext(ShoppingCartContext);
 
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(!open);
+
+  const getTotal = () => {
+    let total = 0;
+
+    const prices = items.map((item) => item.movie.Price);
+
+    prices.forEach((price) => (total += Number(price)));
+
+    return total.toFixed(2);
+  };
 
   return (
     <Box>
@@ -37,10 +48,9 @@ const DrawerCart = () => {
           <Typography variant="body1">
             Resume of my movie and tv shows
           </Typography>
+          <Typography variant="h5">Total: $ {getTotal()}</Typography>
           {items.length > 0 &&
-            items.map((item, index) => (
-              <CardBoxShopping key={index} item={item} />
-            ))}
+            items.map((item, index) => <CardItem key={index} item={item} />)}
         </Box>
       </Drawer>
     </Box>
